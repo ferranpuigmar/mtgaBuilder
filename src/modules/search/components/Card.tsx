@@ -2,7 +2,6 @@
 
 import { addDeckCard } from '@/lib/features/deckEditor/deckEditorSlice'
 import type { Card } from '@/lib/features/rtk/scryFallApi/types'
-// import RootState from your store file
 import type { RootState } from '@/lib/store'
 import Image from 'next/image'
 import React from 'react'
