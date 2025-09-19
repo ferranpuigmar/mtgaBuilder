@@ -34,7 +34,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             <SearchBox />
           </div>
           {/* Fila 2: ocupa el resto */}
-          <div className="bg-blue-700 p-2 flex-1 overflow-y-auto">
+          <div className="bg-blue-700 p-2 flex-1 overflow-y-auto scrollbar-hide">
             <CardList />
           </div>
         </div>
@@ -42,8 +42,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         <div className="flex flex-col h-full">
           <div className="bg-gray-800 p-2 shrink-0 h-full">
             <DeckCardsList repositoryType="localStorage" />
-          </div>
-          <div className="bg-gray-900 p-2 flex-1 overflow-y-auto">
           </div>
         </div>
       </div>

@@ -2,20 +2,6 @@ import { cardMapper } from '@/modules/deck/mappers/cardMapper'
 import { scryfallApi } from './baseApi'
 import type { SearchResponse, SearchResponseAPI } from './types'
 
-export enum CardColor {
-  White = 'W',
-  Blue = 'U',
-  Black = 'B',
-  Red = 'R',
-  Green = 'G',
-}
-
-export enum CardColorsMode {
-  Includes = 'includes',
-  Exact = 'exact',
-  IdentityAtMost = 'identityAtMost',
-}
-
 export const cardsApi = scryfallApi.injectEndpoints({
   endpoints: (build) => ({
     searchCards: build.query<

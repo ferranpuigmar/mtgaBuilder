@@ -1,11 +1,7 @@
-import { Deck } from "@/modules/deck/types/deck";
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState: Deck = {
-  id: '',
-  name: '',
-  cards: [],
-};
+import { DeckEditorState } from "./deckEditor.types";
+import { initialState } from "./deckEditor.initialState";
+import { fetchDeck } from "./deckEditor.thunks";
 
 const deckEditorSlice = createSlice({
     name: "deckEditor",
@@ -22,6 +18,22 @@ const deckEditorSlice = createSlice({
         setDeckCards: (state, action) => {
             state.cards = action.payload;
         },
+        setDeckQuantity: (state, action) => {
+            const { cardId, quantity } = action.payload;
+            if (quantity === 0) {
+                state.cards = state.cards.filter(card => card.id !== cardId);
+                return;
+            }
+            const card = state.cards.find(card => card.id === cardId);
+
+            if (card && quantity > card.maxCopies) {
+                return;
+            }
+
+            if (card && card.selectedCopies !== quantity) {
+                card.selectedCopies = quantity;
+            }
+        },
         addDeckCard: (state, action) => {
             const existCard = state.cards.find(card => card.id === action.payload.id);
             if (existCard) {
@@ -34,8 +46,29 @@ const deckEditorSlice = createSlice({
             state.cards = state.cards.filter(card => card.id !== action.payload.id);
         },
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchDeck.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchDeck.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                if (action.payload) {
+                    state.id = action.payload.id;
+                    state.name = action.payload.name;
+                    state.cards = action.payload.cards;
+                }
+            })
+            .addCase(fetchDeck.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Error al cargar el deck';
+            });
+    },
 });
 
-export const { addDeckCard, removeDeckCard, setDeckCards, setDeck, setDeckName } = deckEditorSlice.actions;
+export const { addDeckCard, removeDeckCard, setDeckCards, setDeck, setDeckName, setDeckQuantity } = deckEditorSlice.actions;
+
 
 export default deckEditorSlice.reducer;

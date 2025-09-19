@@ -1,6 +1,6 @@
 import { Card } from "@/lib/features/rtk/scryFallApi/types";
 
-type DeckCards = Omit<Card, 'imageUris' | 'colors' | 'cmc'> & {
+export type DeckCard = Omit<Card, 'imageUris' | 'colors' | 'cmc'> & {
     selectedCopies: number;
 };
 
@@ -8,5 +8,5 @@ export type Deck = {
     id: string;
     name: string;
     description?: string;
-    cards: Array<DeckCards>;
+    cards: Array<DeckCard>;
 }

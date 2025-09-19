@@ -1,3 +1,11 @@
+export enum CardColor {
+  White = 'W',
+  Blue = 'U',
+  Black = 'B',
+  Red = 'R',
+  Green = 'G',
+}
+
 export type Card = {
   id: string;
   name: string;
