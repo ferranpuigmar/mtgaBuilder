@@ -1,0 +1,14 @@
+/* src/styles/global.css */
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #0ea5e9;
+
+  --font-sans: Arial, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+@layer base {
+  html { font-family: var(--font-sans); }
+}
