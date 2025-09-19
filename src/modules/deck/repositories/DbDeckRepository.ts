@@ -1,7 +1,7 @@
 import { Deck } from '../types/deck';
 import { DeckRepository } from './deckRepository.interface'
 
-// Ejemplo: implementación ficticia en memoria
+// TODO: Implement with a real data base
 export class DbDeckRepository implements DeckRepository {
   private decks: Deck[] = [];
 
