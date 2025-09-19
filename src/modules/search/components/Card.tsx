@@ -13,7 +13,8 @@ const CardBullets = ({ maxCopies, usedTimes }: { maxCopies: number, usedTimes: n
   return (
     <div className='flex gap-1'>
         {Array.from({ length: maxCopies }, (_, i) => {
-          const selectedClass = i + 1 <= usedTimes ? 'bg-green-500' : 'bg-transparent';
+          const bulletNumberIsSelected = i + 1 <= usedTimes;
+          const selectedClass = bulletNumberIsSelected ? 'bg-green-500' : 'bg-transparent';
 
           return <div key={i} className={`w-4 h-4 rounded-full border ${selectedClass}`}></div>;
         })}
