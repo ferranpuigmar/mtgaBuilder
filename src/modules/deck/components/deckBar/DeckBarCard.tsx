@@ -4,6 +4,13 @@ import { useDispatch } from 'react-redux'
 import { setDeckQuantity } from '@/lib/features/deckEditor/deckEditorSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
+import { getManaTokens } from '../../utils/getManaTokens';
+import { ManaIcon } from './ManaIcon';
+
+const renderManaTokens = (manaCost: string) => {
+    const manaTokens = getManaTokens(manaCost);
+    return <div className='flex gap-1'>{manaTokens.map((token, index) => <ManaIcon key={index} symbol={token} />)}</div>
+}
 
 const DeckBarCardQuantity = ({ id }: { id: string}) => {
     const dispatch = useDispatch();
@@ -27,8 +34,8 @@ const DeckBarCard = ({ card }: { card: DeckCard}) => {
     <div>
       <div className='flex items-center gap-2 cursor-pointer'>
         <DeckBarCardQuantity id={card.id} />
-        <h3>{card.name}</h3>
-        <p>{card.id}</p>
+        <div>{card.name}</div>
+        <div>{renderManaTokens(card.manaCost)}</div>
       </div>
     </div>
   )

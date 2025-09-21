@@ -1,10 +1,11 @@
-export enum CardColor {
+export enum CardSymbol {
   White = 'W',
   Blue = 'U',
   Black = 'B',
   Red = 'R',
   Green = 'G',
 }
+
 
 export type Card = {
   id: string;

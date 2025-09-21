@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { DeckEditorState } from "./deckEditor.types";
 import { initialState } from "./deckEditor.initialState";
-import { fetchDeck } from "./deckEditor.thunks";
+import { deckEditorExtraReducers } from "./deckEditor.extraReducers";
 
 const deckEditorSlice = createSlice({
     name: "deckEditor",
@@ -11,6 +10,9 @@ const deckEditorSlice = createSlice({
             state.id = action.payload.id;
             state.name = action.payload.name;
             state.cards = action.payload.cards;
+        },
+        setOriginalDeck: (state, action) => {
+            state.originalDeck = action.payload;
         },
         setDeckName: (state, action) => {
             state.name = action.payload;
@@ -46,29 +48,10 @@ const deckEditorSlice = createSlice({
             state.cards = state.cards.filter(card => card.id !== action.payload.id);
         },
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchDeck.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchDeck.fulfilled, (state, action) => {
-                state.loading = false;
-                state.error = null;
-                if (action.payload) {
-                    state.id = action.payload.id;
-                    state.name = action.payload.name;
-                    state.cards = action.payload.cards;
-                }
-            })
-            .addCase(fetchDeck.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message || 'Error al cargar el deck';
-            });
-    },
+    extraReducers: deckEditorExtraReducers,
 });
 
-export const { addDeckCard, removeDeckCard, setDeckCards, setDeck, setDeckName, setDeckQuantity } = deckEditorSlice.actions;
+export const { addDeckCard, removeDeckCard, setDeckCards, setDeck, setDeckName, setDeckQuantity, setOriginalDeck } = deckEditorSlice.actions;
 
 
 export default deckEditorSlice.reducer;

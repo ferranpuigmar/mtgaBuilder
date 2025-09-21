@@ -38,7 +38,9 @@ const Card = ({ card }: { card: Card }) => {
         <div><CardBullets maxCopies={card.maxCopies} usedTimes={usedTimes} /></div>
         <div className='rounded-2xl aspect-[28/39] w-[252px] overflow-hidden'>
             <div className="relative w-full h-full">
-                <Image src={card.imageUris['normal']} alt={card.name} fill className='object-contain' sizes="100vw" />
+                {card.imageUris['normal'] ? (
+                  <Image src={card.imageUris['normal']} alt={card.name} fill className='object-contain' sizes="100vw" />
+                ) : null}
                 <div />
             </div>
         </div>
