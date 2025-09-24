@@ -1,11 +1,10 @@
-// Update the import path below to the correct relative path if needed
-
 import { cardsApi } from "@/lib/features/rtk/scryFallApi/searchCards";
 import { makeStore } from "@/lib/store";
 import StoreProvider from "./StoreProvider";
 import SearchBox from "@/modules/search/components/searchBox";
 import CardList from "@/modules/search/components/CardList";
 import DeckCardsList from "@/modules/deck/components/deckBar/DeckBar";
+import { DeckRepositoryType } from "@/modules/deck/repositories/deckRepository.interface";
 
 export const dynamic = 'force-dynamic'
 
@@ -41,7 +40,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
 
         <div className="flex flex-col h-full">
           <div className="bg-gray-800 p-2 shrink-0 h-full">
-            <DeckCardsList repositoryType="localStorage" />
+            <DeckCardsList repositoryType={DeckRepositoryType.DATABASE} />
           </div>
         </div>
       </div>

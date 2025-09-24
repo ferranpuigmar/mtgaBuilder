@@ -22,24 +22,27 @@ const deckEditorSlice = createSlice({
         },
         setDeckQuantity: (state, action) => {
             const { cardId, quantity } = action.payload;
+            console.log({ cardId, quantity });
             if (quantity === 0) {
                 state.cards = state.cards.filter(card => card.id !== cardId);
                 return;
             }
-            const card = state.cards.find(card => card.id === cardId);
+            state.cards = state.cards.map(card =>
+                card.id === cardId
+                    ? (quantity > card.maxCopies ? card : { ...card, selectedCopies: quantity })
+                    : card
+            );
 
-            if (card && quantity > card.maxCopies) {
-                return;
-            }
+                        console.log(JSON.stringify(state.cards, null, 4));
 
-            if (card && card.selectedCopies !== quantity) {
-                card.selectedCopies = quantity;
-            }
         },
         addDeckCard: (state, action) => {
-            const existCard = state.cards.find(card => card.id === action.payload.id);
-            if (existCard) {
-                existCard.selectedCopies += 1;
+            console.log({ 'adding action': action });
+            const idx = state.cards.findIndex(card => card.id === action.payload.id);
+            if (idx !== -1) {
+                state.cards = state.cards.map((card, i) =>
+                    i === idx ? { ...card, selectedCopies: card.selectedCopies + 1 } : card
+                );
                 return;
             }
             state.cards.push({ ...action.payload, selectedCopies: 1 });

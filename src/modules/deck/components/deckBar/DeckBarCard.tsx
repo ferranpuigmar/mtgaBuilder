@@ -14,7 +14,7 @@ const renderManaTokens = (manaCost: string) => {
 
 const DeckBarCardQuantity = ({ id }: { id: string}) => {
     const dispatch = useDispatch();
-    const cardQuantity = useSelector((state: RootState) => state.deckEditor.cards.find((c: DeckCard) => c.id === id)?.selectedCopies || 0);
+    const cardQuantity = useSelector((state: RootState) => state.deckEditor.cards.find((c: DeckCard) => String(c.id) === id)?.selectedCopies || 0);
 
     const handleQuantity = (newQuantity: number) => {
         dispatch(setDeckQuantity({ cardId: id, quantity: newQuantity }));
@@ -33,7 +33,7 @@ const DeckBarCard = ({ card }: { card: DeckCard}) => {
   return (
     <div>
       <div className='flex items-center gap-2 cursor-pointer'>
-        <DeckBarCardQuantity id={card.id} />
+        <DeckBarCardQuantity id={String(card.id)} />
         <div>{card.name}</div>
         <div>{renderManaTokens(card.manaCost)}</div>
       </div>

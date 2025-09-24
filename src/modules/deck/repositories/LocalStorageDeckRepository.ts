@@ -4,8 +4,9 @@ import { DeckRepository } from './deckRepository.interface'
 export class LocalStorageDeckRepository implements DeckRepository {
   private key = 'deck';
 
-  async save(deck: Deck): Promise<void> {
+  async save(deck: Deck): Promise<{ id: string | void }> {
     localStorage.setItem(this.key, JSON.stringify(deck));
+    return { id: deck.id };
   }
 
   async getAll(): Promise<Deck[]> {

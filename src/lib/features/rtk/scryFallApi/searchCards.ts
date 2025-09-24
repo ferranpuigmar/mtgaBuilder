@@ -14,10 +14,13 @@ export const cardsApi = scryfallApi.injectEndpoints({
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         return `${endpointName}|q=${(queryArgs.q ?? '').trim().toLowerCase()}`
       },
-      transformResponse: ((response: SearchResponseAPI) => ({
-        ...response,
-        data: response.data.map(cardMapper),
-      })),
+      transformResponse: ((response: SearchResponseAPI) => {
+        const filterDataByArenaGame = response.data.filter(card => card.games?.includes('arena'));
+        return {
+          ...response,
+          data: filterDataByArenaGame.map(cardMapper),
+        }
+      }),
       merge: (currentCache, newCache) => {
         const seenIds = new Set(currentCache.data.map(c => c.id))
         const newCacheData = [

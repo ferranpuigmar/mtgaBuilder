@@ -10,6 +10,7 @@ export enum CardSymbol {
 export type Card = {
   id: string;
   name: string;
+  arenaId?: number;
   maxCopies: number;
   manaCost: string;
   imageUris: { small: string; normal: string; large: string };
@@ -18,9 +19,11 @@ export type Card = {
 }
 
 export type SearchCardApi = {
-  id: string; 
+  id: string;
+  arena_id?: number;
   name: string; 
-  mana_cost?: string; 
+  mana_cost?: string;
+  games?: Array<'paper' | 'arena' | 'mtgo'>;
   cmc?: number;
   colors?: Array<'W'|'U'|'B'|'R'|'G'>;
   image_uris?: { small: string; normal: string; large: string };

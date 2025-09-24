@@ -2,12 +2,10 @@
 
 import React, { useEffect } from 'react'
 import { useUnsavedChangesModal } from '@/modules/shared/hooks/useUnsavedChangesModal'
-import { DeckRepository } from '../../repositories/deckRepository.interface'
+import { DeckRepositoryType } from '../../repositories/deckRepository.interface'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
-import { DbDeckRepository } from '../../repositories/DbDeckRepository'
-import { LocalStorageDeckRepository } from '../../repositories/LocalStorageDeckRepository'
 import DeckBarheader from './DeckBarheader'
 import DeckBarCard from './DeckBarCard'
 import { fetchDeck, saveDeck } from '@/lib/features/deckEditor/deckEditor.thunks'
@@ -17,21 +15,15 @@ import { selectCurrentDeck, selectOriginalDeck } from '@/lib/features/deckEditor
 import DeckModalConfirm from './DeckModalConfirm'
 import { setOriginalDeck } from '@/lib/features/deckEditor/deckEditorSlice'
 
-const DeckCardsList = ({ deckId, repositoryType }: { deckId?: string, repositoryType: string }) => {
-    const repository: DeckRepository = React.useMemo(() => (
-        repositoryType === 'localStorage'
-            ? new LocalStorageDeckRepository()
-            : new DbDeckRepository()
-    ), [repositoryType]);
-
+const DeckCardsList = ({ deckId, repositoryType }: { deckId?: string, repositoryType: DeckRepositoryType }) => {
     const dispatch = useDispatch<AppDispatch>()
     const deck = useSelector(selectCurrentDeck);
     const originalDeck = useSelector(selectOriginalDeck);
     const loading = useSelector((state: RootState) => state.deckEditor.loading)
 
     useEffect(() => {
-        dispatch(fetchDeck({ deckId, repository }));
-    }, [deckId, repository, dispatch]);
+        dispatch(fetchDeck({ deckId, repositoryType }));
+    }, [deckId, repositoryType, dispatch]);
 
     const isDeckEqual = (a: Deck, b: Deck) => JSON.stringify(a) === JSON.stringify(b)
     const hasDifferences = !isDeckEqual(deck, originalDeck)
@@ -55,7 +47,7 @@ const DeckCardsList = ({ deckId, repositoryType }: { deckId?: string, repository
     }, [hasDifferences, refreshAction])
 
     const handleOnSave = async () => {
-       await dispatch(saveDeck({ deckData: deck, repository }));
+       await dispatch(saveDeck({ deckData: deck, repositoryType }));
        dispatch(setOriginalDeck(deck));
     }
 

@@ -11,8 +11,9 @@ export const deckEditorExtraReducers = (builder: ActionReducerMapBuilder<DeckEdi
         .addCase(fetchDeck.fulfilled, (state, action) => {
             state.loading = false;
             state.error = null;
-            if (action.payload) {
-                state.id = action.payload.id;
+
+            if(action.payload && !Array.isArray(action.payload)) {
+                 state.id = action.payload.id;
                 state.name = action.payload.name;
                 state.cards = action.payload.cards;
             }

@@ -13,11 +13,11 @@ export const getMaxCopies = (card: SearchCardApi): number | typeof Infinity => {
 };
 
 export const cardMapper = (cardData: SearchCardApi): Card => {
-    const { id, name, mana_cost, image_uris, colors, cmc } = cardData;
-    console.log(id, name, mana_cost, image_uris, colors, cmc);
+    const { id, name, mana_cost, image_uris, colors, cmc, arena_id } = cardData;
 
     return {
         id,
+        arenaId: arena_id ?? undefined,
         name,
         manaCost: mana_cost ?? "",
         maxCopies: getMaxCopies(cardData),

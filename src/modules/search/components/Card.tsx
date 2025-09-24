@@ -24,7 +24,10 @@ const CardBullets = ({ maxCopies, usedTimes }: { maxCopies: number, usedTimes: n
 
 const Card = ({ card }: { card: Card }) => {
   const dispatch = useDispatch();
-  const deckCard = useSelector((state: RootState) => state.deckEditor.cards.find((c) => c.id === card.id));
+  const deckCard = useSelector((state: RootState) => state.deckEditor.cards.find((c) => {
+    console.log({ equality: c.id?.toString().trim() === card.id?.toString().trim(), cardId: card.id, cId: c.id });
+    return c.id?.toString().trim() === card.id?.toString().trim();
+  }));
   const usedTimes = deckCard ? deckCard.selectedCopies : 0;
 
   const handleUsedTimes = () => {
