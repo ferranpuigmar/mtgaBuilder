@@ -15,19 +15,30 @@ datasource db {
 }
 
 model Deck {
-  id          String @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String
-  description String
-  cards       Card[] @relation("DeckCards")
+  description String?
+  cards       DeckCard[]
 }
 
 model Card {
-  id              String  @id @unique
-  arena_id        Int?    @unique
-  name            String
-  mana_cost       String
-  max_copies      Int
-  selected_copies Int     @default(1)
-  deck            Deck?   @relation("DeckCards", fields: [deck_id], references: [id])
-  deck_id         String?
+  id         String     @id
+  arena_id   Int?       @unique
+  name       String
+  mana_cost  String?
+  max_copies Int        @default(4)
+  decks      DeckCard[]
+}
+
+model DeckCard {
+  deck_id String
+  card_id String
+  selected_copies Int @default(1)
+
+  deck Deck @relation(fields: [deck_id], references: [id], onDelete: Cascade)
+  card Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
+
+  @@id([deck_id, card_id])
+  @@index([card_id])
+  @@index([deck_id])
 }

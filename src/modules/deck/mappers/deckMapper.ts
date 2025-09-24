@@ -1,8 +1,8 @@
-import { Card as CardPersistance, Deck as DeckPersistance } from "@/generated/prisma";
+import { Card as CardPersistance, Deck as DeckPersistance, DeckCard as DeckCardPersistance } from "@/generated/prisma";
 import { Deck } from "../types/deck";
 
-
-export type DeckPersistenceWithCards = DeckPersistance & { cards: CardPersistance[] };
+type CardPersistanceWithSelected = CardPersistance & Omit<DeckCardPersistance, 'card_id' | 'deck_id'>;
+export type DeckPersistenceWithCards = DeckPersistance & { cards: CardPersistanceWithSelected[] };
 
 export const deckMapperToDomain = (deck: DeckPersistenceWithCards): Deck => {
     return {
@@ -12,7 +12,7 @@ export const deckMapperToDomain = (deck: DeckPersistenceWithCards): Deck => {
         cards: deck.cards.map(card => ({
             id: card.id,
             name: card.name,
-            manaCost: card.mana_cost,
+            manaCost: card.mana_cost ?? '',
             maxCopies: card.max_copies,
             selectedCopies: card.selected_copies,
             arenaId: card.arena_id ?? undefined
